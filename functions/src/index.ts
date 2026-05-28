@@ -1,4 +1,4 @@
-import { onRequest } from "firebase-functions/v2/https";
+import { onSchedule } from "firebase-functions/v2/scheduler";
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import { scrapeSections } from "./courseScraper";
@@ -21,9 +21,9 @@ const DEPARTMENTS = ["csci"] as const;
 // Year + 1-digit term ID (1 = spring, 2 = summer, 3 = fall)
 const TERMS = ["202101"] as const;
 
-export const scrapeEndpoints = onRequest(
-  { region: "us-east4", timeoutSeconds: 540, memory: "512MiB" },
-  async (_req, res) => {
+export const scrapeEndpoints = onSchedule(
+  { schedule: "every 24 hours", region: "us-east4", timeoutSeconds: 540, memory: "512MiB" },
+  async () => {
     const db = getFirestore();
     let total = 0;
 
@@ -51,6 +51,6 @@ export const scrapeEndpoints = onRequest(
       }
     }
 
-    res.json({ result: `Scraped semester: ${total} sections added.` });
+    console.log(`Scraped semester: ${total} sections added.`);
   },
 );
