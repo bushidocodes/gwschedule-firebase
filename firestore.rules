@@ -1,9 +1,21 @@
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Course data is public read-only. Writes happen via the
+    // scraper Cloud Function, which uses the Admin SDK and bypasses rules.
+    match /terms/{term} {
+      allow read: if true;
+      allow write: if false;
+
+      match /sections/{section} {
+        allow read: if true;
+        allow write: if false;
+      }
+    }
+
     match /{document=**} {
-      allow read, write: if
-          request.time < timestamp.date(2020, 12, 7);
+      allow read, write: if false;
     }
   }
 }
