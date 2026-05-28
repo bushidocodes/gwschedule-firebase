@@ -23,13 +23,13 @@ export interface Section {
 const SCHEDULE_URL = "https://my.gwu.edu/mod/pws/print.cfm";
 
 // "CSCI 1010" -> ["CSCI", 1010]
-function normalizeSubject(input: string): [string, number] {
+export function normalizeSubject(input: string): [string, number] {
   const [dept = "", id = ""] = input.trim().split(/\s+/);
   return [dept, Number.parseInt(id, 10) || 0];
 }
 
 // "8/24-12/14" -> ["8/24", "12/14"]
-function parseFromTo(input: string): [string, string] {
+export function parseFromTo(input: string): [string, string] {
   const parts = input.split("-").map((s) => s.trim());
   if (parts.length !== 2) {
     console.warn(`parseFromTo expected two tokens, got ${parts.length}`);
@@ -38,13 +38,13 @@ function parseFromTo(input: string): [string, string] {
   return [parts[0] ?? "", parts[1] ?? ""];
 }
 
-function parseDayTimes(
+export function parseDayTimes(
   dayTimesRaw: string,
   locationsRaw: string,
 ): ScheduledMeeting[] {
   // A course listing may contain multiple meeting blocks joined with "AND"
-  const dayTimes = dayTimesRaw.split("AND");
-  const locations = locationsRaw.split("AND");
+  const dayTimes = dayTimesRaw.split("AND").map((s) => s.trim());
+  const locations = locationsRaw.split("AND").map((s) => s.trim());
 
   if (dayTimes.length !== locations.length) {
     console.warn("daytimes and locations did not have same number of tokens");
@@ -57,14 +57,15 @@ function parseDayTimes(
   const results: ScheduledMeeting[] = [];
 
   for (const entry of new Set(joined)) {
-    const [daytimePart = "", locationPart = ""] = entry
-      .split("&")
-      .map((tok) => tok.trim());
+    const [daytimePart = "", locationPart = ""] = entry.split("&");
+
+    // Require a day-of-week prefix followed by at least one time so that
+    // strings like "TBA" don't parse "T" as Tuesday.
+    const times = daytimePart.match(/\d\d:\d\d[APM]+/g) ?? [];
+    if (times.length === 0) continue;
 
     const daysMatch = daytimePart.match(/^[MTWRF]+/);
     const days = (daysMatch?.[0] ?? "").split("");
-
-    const times = daytimePart.match(/\d\d:\d\d[APM]+/g) ?? [];
     const startTime = times[0] ?? "";
     const endTime = times[1] ?? "";
 
