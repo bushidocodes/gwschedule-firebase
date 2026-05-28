@@ -1,12 +1,8 @@
-# Compiled JavaScript files
-**/*.js
-**/*.js.map
+# Build output
+lib/
 
-# Except the ESLint config file
-!.eslintrc.js
+# Allow the JS ESLint config at the root
+!eslint.config.js
 
-# TypeScript v1 declaration files
-typings/
-
-# Node.js dependency directory
+# Dependencies
 node_modules/
