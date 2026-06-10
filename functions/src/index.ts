@@ -18,7 +18,6 @@ const FIRESTORE_BATCH_LIMIT = 500;
 // 8 = Corcoran School of the Arts and Design (No SEAS)
 const CAMPUSES = ["1"] as const;
 const DEPARTMENTS = ["CSCI"] as const;
-
 // Year + 1-digit term ID (1 = spring, 2 = summer, 3 = fall)
 // GW approximate schedule: Spring = Jan–May, Summer = Jun–Jul, Fall = Aug–Dec
 function currentTermId(): string {
