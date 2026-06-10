@@ -17,9 +17,19 @@ const FIRESTORE_BATCH_LIMIT = 500;
 // 7 = Online Courses
 // 8 = Corcoran School of the Arts and Design (No SEAS)
 const CAMPUSES = ["1"] as const;
-const DEPARTMENTS = ["csci"] as const;
+const DEPARTMENTS = ["CSCI"] as const;
+
 // Year + 1-digit term ID (1 = spring, 2 = summer, 3 = fall)
-const TERMS = ["202101"] as const;
+// GW approximate schedule: Spring = Jan–May, Summer = Jun–Jul, Fall = Aug–Dec
+function currentTermId(): string {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const term = month <= 5 ? 1 : month <= 7 ? 2 : 3;
+  return `${year}0${term}`;
+}
+
+const TERMS = [currentTermId()];
 
 export const scrapeEndpoints = onSchedule(
   { schedule: "every 24 hours", region: "us-east4", timeoutSeconds: 540, memory: "512MiB" },
