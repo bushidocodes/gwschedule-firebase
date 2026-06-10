@@ -127,6 +127,10 @@ export async function scrapeSections(
     const locationRaw = cellText(cells, 7);
     const dayTimeRaw = cellText(cells, 8);
     const [department, courseID] = normalizeSubject(subject);
+    if (courseID === 0 || Number.isNaN(crn)) {
+      console.warn(`Skipping section with unparseable subject/crn: subject=${JSON.stringify(subject)} crn=${crnText}`);
+      continue;
+    }
     const schedule = parseDayTimes(dayTimeRaw, locationRaw);
 
     const [startDate, endDate] = parseFromTo(cellText(cells, 9));
