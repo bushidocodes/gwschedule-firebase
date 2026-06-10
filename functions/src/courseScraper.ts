@@ -29,13 +29,15 @@ export function normalizeSubject(input: string): [string, number] {
 }
 
 // "8/24-12/14" -> ["8/24", "12/14"]
+// Uses a non-greedy regex split so that slash-delimited dates (M/D/YY) containing
+// no hyphens are matched as a single token on each side of the range separator.
 export function parseFromTo(input: string): [string, string] {
-  const parts = input.split("-").map((s) => s.trim());
-  if (parts.length !== 2) {
-    console.warn(`parseFromTo expected two tokens, got ${parts.length}`);
+  const m = input.trim().match(/^(.+?)\s*-\s*(.+)$/);
+  if (!m) {
+    console.warn(`parseFromTo: could not parse range from ${JSON.stringify(input)}`);
     return ["", ""];
   }
-  return [parts[0] ?? "", parts[1] ?? ""];
+  return [m[1]!.trim(), m[2]!.trim()];
 }
 
 export function parseDayTimes(
