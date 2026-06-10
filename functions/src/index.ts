@@ -17,7 +17,7 @@ const FIRESTORE_BATCH_LIMIT = 500;
 // 7 = Online Courses
 // 8 = Corcoran School of the Arts and Design (No SEAS)
 const CAMPUSES = ["1"] as const;
-const DEPARTMENTS = ["csci"] as const;
+const DEPARTMENTS = ["CSCI"] as const;
 // Year + 1-digit term ID (1 = spring, 2 = summer, 3 = fall)
 const TERMS = ["202101"] as const;
 
