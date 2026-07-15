@@ -8,7 +8,8 @@
 import { scrapeSections } from "../src/courseScraper";
 
 async function main() {
-  const [campId = "1", termId = "202101", subjId = "CSCI"] = process.argv.slice(2);
+  const [campId = "1", termId = "202101", subjId = "CSCI"] =
+    process.argv.slice(2);
 
   console.log(`Scraping campId=${campId} termId=${termId} subjId=${subjId}...`);
   const start = Date.now();
@@ -29,8 +30,12 @@ async function main() {
 
   console.log("\nSummary:");
   console.log(`  Departments: ${[...departments].join(", ")}`);
-  console.log(`  Sections with at least one meeting: ${withSchedule}/${sections.length}`);
-  console.log(`  Distinct credit values: ${[...credits].slice(0, 8).join(", ")}`);
+  console.log(
+    `  Sections with at least one meeting: ${withSchedule}/${sections.length}`,
+  );
+  console.log(
+    `  Distinct credit values: ${[...credits].slice(0, 8).join(", ")}`,
+  );
 
   console.log("\nFirst 3 sections:");
   console.log(JSON.stringify(sections.slice(0, 3), null, 2));
