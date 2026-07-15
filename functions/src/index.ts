@@ -1,6 +1,6 @@
-import { onSchedule } from "firebase-functions/v2/scheduler";
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
+import { onSchedule } from "firebase-functions/v2/scheduler";
 import { scrapeSections } from "./courseScraper";
 
 initializeApp();
@@ -31,7 +31,12 @@ function currentTermId(): string {
 const TERMS = [currentTermId()];
 
 export const scrapeEndpoints = onSchedule(
-  { schedule: "every 24 hours", region: "us-east4", timeoutSeconds: 540, memory: "512MiB" },
+  {
+    schedule: "every 24 hours",
+    region: "us-east4",
+    timeoutSeconds: 540,
+    memory: "512MiB",
+  },
   async () => {
     const db = getFirestore();
     let total = 0;
@@ -46,10 +51,15 @@ export const scrapeEndpoints = onSchedule(
 
           for (let i = 0; i < sections.length; i += FIRESTORE_BATCH_LIMIT) {
             const batch = db.batch();
-            for (const section of sections.slice(i, i + FIRESTORE_BATCH_LIMIT)) {
+            for (const section of sections.slice(
+              i,
+              i + FIRESTORE_BATCH_LIMIT,
+            )) {
               const ref = termRef
                 .collection("sections")
-                .doc(`${section.department}-${section.courseID}-${section.section}`);
+                .doc(
+                  `${section.department}-${section.courseID}-${section.section}`,
+                );
               batch.set(ref, section);
             }
             await batch.commit();

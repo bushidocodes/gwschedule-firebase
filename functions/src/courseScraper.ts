@@ -34,7 +34,9 @@ export function normalizeSubject(input: string): [string, number] {
 export function parseFromTo(input: string): [string, string] {
   const m = input.trim().match(/^(.+?)\s*-\s*(.+)$/);
   if (!m) {
-    console.warn(`parseFromTo: could not parse range from ${JSON.stringify(input)}`);
+    console.warn(
+      `parseFromTo: could not parse range from ${JSON.stringify(input)}`,
+    );
     return ["", ""];
   }
   return [m[1]!.trim(), m[2]!.trim()];
@@ -79,7 +81,10 @@ export function parseDayTimes(
   return results;
 }
 
-function cellText(cells: NodeListOf<HTMLTableCellElement>, idx: number): string {
+function cellText(
+  cells: NodeListOf<HTMLTableCellElement>,
+  idx: number,
+): string {
   return cells[idx]?.textContent ?? "";
 }
 
@@ -130,7 +135,9 @@ export async function scrapeSections(
     const dayTimeRaw = cellText(cells, 8);
     const [department, courseID] = normalizeSubject(subject);
     if (courseID === 0 || Number.isNaN(crn)) {
-      console.warn(`Skipping section with unparseable subject/crn: subject=${JSON.stringify(subject)} crn=${crnText}`);
+      console.warn(
+        `Skipping section with unparseable subject/crn: subject=${JSON.stringify(subject)} crn=${crnText}`,
+      );
       continue;
     }
     const schedule = parseDayTimes(dayTimeRaw, locationRaw);

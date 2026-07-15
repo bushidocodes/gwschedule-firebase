@@ -46,15 +46,35 @@ describe("parseFromTo", () => {
 describe("parseDayTimes", () => {
   it("expands multi-day meeting strings into per-day records", () => {
     expect(parseDayTimes("MWF 09:00AM - 09:50AM", "TOMPKINS 101")).toEqual([
-      { location: "TOMPKINS 101", day: "M", startTime: "09:00AM", endTime: "09:50AM" },
-      { location: "TOMPKINS 101", day: "W", startTime: "09:00AM", endTime: "09:50AM" },
-      { location: "TOMPKINS 101", day: "F", startTime: "09:00AM", endTime: "09:50AM" },
+      {
+        location: "TOMPKINS 101",
+        day: "M",
+        startTime: "09:00AM",
+        endTime: "09:50AM",
+      },
+      {
+        location: "TOMPKINS 101",
+        day: "W",
+        startTime: "09:00AM",
+        endTime: "09:50AM",
+      },
+      {
+        location: "TOMPKINS 101",
+        day: "F",
+        startTime: "09:00AM",
+        endTime: "09:50AM",
+      },
     ]);
   });
 
   it("handles a single day meeting", () => {
     expect(parseDayTimes("R 06:10PM - 08:40PM", "REMOTE INSTR")).toEqual([
-      { location: "REMOTE INSTR", day: "R", startTime: "06:10PM", endTime: "08:40PM" },
+      {
+        location: "REMOTE INSTR",
+        day: "R",
+        startTime: "06:10PM",
+        endTime: "08:40PM",
+      },
     ]);
   });
 
@@ -84,7 +104,12 @@ describe("parseDayTimes", () => {
       "ROOM A AND ROOM A",
     );
     expect(result).toEqual([
-      { location: "ROOM A", day: "M", startTime: "09:00AM", endTime: "09:50AM" },
+      {
+        location: "ROOM A",
+        day: "M",
+        startTime: "09:00AM",
+        endTime: "09:50AM",
+      },
     ]);
   });
 

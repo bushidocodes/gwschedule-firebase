@@ -21,7 +21,9 @@ async function main() {
   if (!res.ok) throw new Error(`Function returned HTTP ${res.status}`);
 
   // Read back from Firestore emulator
-  const termDoc = await fetch(`${FIRESTORE_BASE}/terms/202101`).then((r) => r.json());
+  const termDoc = await fetch(`${FIRESTORE_BASE}/terms/202101`).then((r) =>
+    r.json(),
+  );
   console.log("\nterms/202101 fields:", termDoc.fields ?? "(missing)");
 
   const sectionsList = await fetch(
