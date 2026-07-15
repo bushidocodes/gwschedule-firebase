@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import { onSchedule } from "firebase-functions/v2/scheduler";
-import { scrapeSections } from "./courseScraper";
+import { scrapeSections } from "./courseScraper.js";
 
 initializeApp();
 
