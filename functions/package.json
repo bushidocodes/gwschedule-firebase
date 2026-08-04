@@ -32,8 +32,12 @@
     "js-yaml": "^4.3.0",
     "protobufjs": "7.6.5",
     "@hono/node-server": "2.0.10",
-    "brace-expansion@1": "1.1.16",
-    "brace-expansion@2": "2.1.2"
+    "brace-expansion@1": "1.1.18",
+    "brace-expansion@2": "2.1.4",
+    "fast-uri": "3.1.5",
+    "hono": "4.12.34",
+    "ts-deepmerge": "8.0.0",
+    "@opentelemetry/core": "2.8.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.3",
